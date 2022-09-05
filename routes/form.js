@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   res.render("form")
 })
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { name, lastName, email, message } = req.body
 
   const emailMsg = {
@@ -17,17 +17,24 @@ router.post("/", (req, res) => {
     html: `Contacto de ${name} ${lastName}: ${message}`
   }
 
+  //inseguro, refactorizar con variables de entorno
   const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 2525,
     auth: {
-      user: "139eb1eb7d9501",
-      pass: "f08bba5cc733ff"
+      user: process.env.user,
+      pass: process.env.pass
     }
   });
 
-  transport.sendMail(emailMsg)
-  res.render("home", { message: "Listo Calixto..." })
+  const sendMailStatus = await transport.sendMail(emailMsg);
+  let sendMailFeedback = "";
+  if (sendMailStatus.rejected.length) {
+    sendMailFeedback = "No pudimos enviar.";
+  } else {
+    sendMailFeedback = "Mensaje enviado.";
+  }
+  res.render("home", { message: sendMailFeedback })
 
 })
 
