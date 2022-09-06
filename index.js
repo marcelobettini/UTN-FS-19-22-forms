@@ -1,7 +1,5 @@
 import hbs from "express-handlebars";
 import express from "express";
-import * as dotenv from "dotenv";
-dotenv.config()
 const PORT = 3000;
 const app = express();
 import routerForm from "./routes/form.js"
