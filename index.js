@@ -4,6 +4,9 @@ const PORT = 3000;
 const app = express();
 import routerForm from "./routes/form.js"
 
+//variables globales (locals), accesibles en todas las vistas, útiles para un redirect, por ej.
+app.locals.sendMailFeedback
+
 //express-hbs config
 app.engine(".hbs", hbs.engine({ extname: "hbs" }));
 app.set('view engine', 'hbs');
