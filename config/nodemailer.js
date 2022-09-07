@@ -8,5 +8,6 @@ const transport = nodemailer.createTransport({
     user: process.env.user,
     pass: process.env.pass
   }
-});
+})
+
 export default transport
